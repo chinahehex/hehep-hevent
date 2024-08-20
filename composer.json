@@ -1,0 +1,23 @@
+﻿{
+	"name": "hehex/hehep-hevent",
+	"description": "hehep-hevent 是一个PHP 用户事件组件,基本概念:事件,事件监听器,事件注解,事件管理器",
+	"license": "Apache-2.0",
+	"authors": [
+		{
+			"name": "hehe"
+		}
+	],
+	"require": {
+		"php": ">=7.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"hehe\\core\\hevent\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"hevent\\test": "tests/"
+		}
+	}
+}
