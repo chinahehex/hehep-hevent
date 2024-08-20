@@ -117,7 +117,7 @@ $hevent = new EventManager([]);
 // 准备事件数据
 $user = new User();
 
-// 触发LoginEvent事件方式1
+// 触发事件
 $hevent->trigger(LoginEvent::class,['user'=>$user]);
 
 ```
@@ -131,10 +131,10 @@ $hevent->setAlias('login_event',LoginEvent::class);
 // 准备事件数据
 $user = new User();
 
-// 使用事件类触发LoginEvent事件方式1
+// 使用事件类触发事件方式1
 $hevent->trigger(LoginEvent::class,['user'=>$user]);
 
-// 使用别名触发LoginEvent事件方式2
+// 使用别名触发事件方式2
 $hevent->trigger('login_event',['user'=>$user]);
 
 ```
@@ -241,10 +241,10 @@ $user = new User();
 // 创建事件对象时传递构造参数
 $event = new LoginEvent($user);
 
-// 创建事件对象事件传递构造参数
+// 创建事件对象时传递构造参数
 $event = $hevent->newEvent(LoginEvent::class,$user);
 
-// 通过setParams 设置事件数据
+// 通过setParams设置事件数据
 $event = new LoginEvent();
 $event->setParams(['user'=>$user,'logintime'=>date('Y-m-d H:i:s')]);
 
@@ -307,7 +307,7 @@ use hehe\core\hevent\annotation\AnnEvent;
  */
 class LoginEvent extends Event
 {
-
+    public $user;
 }
 ```
 
@@ -352,6 +352,18 @@ class LoginEventListener
 
 ```
 
+- 注解示例代码
+```php
+use hehe\core\hevent\EventManager;
+use apiadmin\behaviors\LoginEvent;
+$hevent = new EventManager([]);
+// 测试样例
+$user = new User();
 
+// 无需主动设置监听器
+$this->hevent->trigger('user_login',['user'=>$user]);
+$this->hevent->trigger(LoginEvent::class,['user'=>$user]);
+
+```
 
 
