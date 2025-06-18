@@ -40,13 +40,13 @@ class EventManager
 	 *<pre>
 	 *  略
 	 *</pre>
-	 * @param array $attrs
+	 * @param array $config
 	 */
-	public function __construct(array $attrs = [])
+	public function __construct(array $config = [])
 	{
-		if (!empty($attrs)) {
-			foreach ($attrs as $name => $value) {
-				$this->{$name} = $value;
+		if (!empty($config)) {
+			foreach ($config as $key => $value) {
+				$this->$key = $value;
 			}
 		}
 	}
@@ -72,15 +72,20 @@ class EventManager
         }
     }
 
+    /**
+     * 添加事件监听器
+     * @param string $event
+     * @param string $listener
+     */
     public function listen(string $event,string $listener):void
     {
         $event = $this->aliasToClass($event);
 
-        $this->listeners[$event][] = $listener;
+        $this->listeners[$event][$listener] = $listener;
     }
 
     /**
-     * 是否存在某个事件监听器
+     * 某个事件是否存在监听器
      * @param string $event
      * @return bool
      */
@@ -107,10 +112,7 @@ class EventManager
         if ($listener === '') {
             unset($this->listeners[$event]);
         } else {
-            $pos = array_search($listener,$this->listeners[$event]);
-            if ($pos !== false) {
-                unset($this->listeners[$event][$pos]);
-            }
+            unset($this->listeners[$event][$listener]);
         }
     }
 
@@ -139,7 +141,7 @@ class EventManager
         }
 
         if (isset($this->listeners[$event])) {
-            $listeners = array_merge($listeners,$this->listeners[$event]);
+            $listeners = array_merge($listeners,array_values($this->listeners[$event]));
         }
 
         $ev_attrs['name'] = $event;

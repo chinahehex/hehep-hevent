@@ -1,8 +1,9 @@
 # hehep-hevent
 
 ## 介绍
-- hehep-hevent 是一个PHP 用户事件组件
-- 基本概念:事件,事件监听器,事件注解,事件管理器
+> hehep-hevent 是一个PHP 用户事件组件  
+> 基本概念:事件,事件监听器,事件管理器,事件注解  
+> 对某个业务点进行功能扩展,用于解耦，比如下单后发送短信,"发送短信" 即可通过事件触发，而无需修改下单业务代码
 
 ## 安装
 - **gitee下载**:
@@ -24,6 +25,8 @@ composer require hehex/hehep-hevent
 
 ```php
 $eventConf = [
+    // 事件管理器
+    //'class'=>'hehe\core\hevent\EventManager',
     // 预定义"login"事件别名集合
     'alias'=>[
         // 定义名称为"login"事件
@@ -73,11 +76,8 @@ $hevent->trigger(LoginEvent::class,['user'=>[]]);
 
 
 ## 事件
-- 说明
-```
-基类:hehe\core\hevent\base\Event,自定义事件必须继承此类
-作用:存储事件数据，定义事件监听器集合
-```
+> 基类:hehe\core\hevent\base\Event,自定义事件必须继承此类  
+> 作用:存储事件数据，定义事件监听器集合  
 
 - 定义事件
 ```php
@@ -160,10 +160,7 @@ $hevent->trigger($event,['user'=>$user]);
 ```
 
 ## 事件监听器
-- 说明
-```
-类名:事件监听器可为任意类,可默认定义handle方法
-```
+> 类名:事件监听器可为任意类,可默认定义handle方法  
 
 - 定义事件监听器
 ```php
@@ -219,13 +216,14 @@ $hevent = new EventManager([]);
 // 绑定事件监听器
 $hevent->listen(LoginEvent::class,LoginEventListener::class);
 
+$user = new User();
 // 指定事件类触发事件
 $hevent->trigger(LoginEvent::class,['user'=>$user]);
 
 // 指定事件别名触发事件
-$hevent->trigger(LoginEvent::class,['user'=>$user]);
+$hevent->trigger('login_event',['user'=>$user]);
 
-// 事件对象触发事件
+// 创建事件对象触发事件
 $event = $hevent->newEvent(LoginEvent::class);
 $hevent->trigger($event,['user'=>$user]);
 
@@ -287,12 +285,9 @@ class LoginEventListener
 ```
 
 ## 事件注解
-- 说明
-```
-事件注解类:hehe\core\hevent\annotation\AnnEvent
-事件注解监听器类:hehe\core\hevent\annotation\AnnEventListener
-事件注解处理器类:hehe\core\hevent\annotation\EventAnnotationProcessor
-```
+> 事件注解类:hehe\core\hevent\annotation\AnnEvent  
+> 事件注解监听器类:hehe\core\hevent\annotation\AnnEventListener  
+> 事件注解处理器类:hehe\core\hevent\annotation\EventAnnotationProcessor  
 
 - 注解事件类
 ```php
@@ -352,7 +347,7 @@ class LoginEventListener
 
 ```
 
-- 注解示例代码
+- 注解示例
 ```php
 use hehe\core\hevent\EventManager;
 use apiadmin\behaviors\LoginEvent;

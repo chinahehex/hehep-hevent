@@ -46,13 +46,13 @@ class Event
 	 *<pre>
 	 *  略
 	 *</pre>
-	 * @param array $attrs
+	 * @param array $config
 	 */
-	public function __construct(array $attrs = [])
+	public function __construct(array $config = [])
 	{
-        if (!empty($attrs)) {
-            foreach ($attrs as $name => $value) {
-                $this->{$name} = $value;
+        if (!empty($config)) {
+            foreach ($config as $key => $value) {
+                $this->$key = $value;
             }
         }
 	}
@@ -113,7 +113,7 @@ class Event
      * @param string $default
      * @return mixed
      */
-    public function getParam($key, $default = null)
+    public function getParam(string $key, $default = null)
     {
         return $this->params[$key] ?? $default;
     }
@@ -184,7 +184,7 @@ class Event
 	 *</pre>
 	 * @return boolean
 	 */
-	public function trigger()
+	public function trigger():?bool
 	{
         $result = true;
         $this->listeners = array_unique($this->listeners);

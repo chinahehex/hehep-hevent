@@ -19,7 +19,7 @@ class AnnTest extends TestCase
      */
     protected $hcontainer;
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
         $this->hcontainer = new ContainerManager();
@@ -28,7 +28,7 @@ class AnnTest extends TestCase
     }
 
     // 单个测试之后(每个测试方法之后调用)
-    protected function tearDown()
+    protected function tearDown():void
     {
         parent::tearDown();
     }
